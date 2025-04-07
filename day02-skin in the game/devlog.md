@@ -22,4 +22,4 @@ Reading the Fundamentals and Philosophy of Decentralization. Setting up my Metam
 ---
 
 ## 📡 Tweet / Cast Log  
-Read about the fundamentals and philosophy of Decentralization. Mailed a tutor in UK who is expert in Tokenomics. Scheduled a meet with auth blog author to look upon the issue.
+Read about the fundamentals and philosophy of Decentralization. Mailed a tutor who is expert in Tokenomics.
