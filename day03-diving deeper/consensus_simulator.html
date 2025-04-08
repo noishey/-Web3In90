@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>simulation</title>
+        <style>
+            body {
+                font-family: 'Inter', sans-serif;
+                background-color: #0b0b0a;
+                color: #FFD700;
+                padding: 2rem;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            select, button {
+                background-color: #0b0b0a;
+                color: #FFD700;
+                border: 1px solid #FFD700;
+                padding: 0.5rem 1rem;
+                margin: 0.5rem;
+                font-size: 1rem;
+                border-radius: 4px;
+                cursor: pointer;
+                transition: background-color 0.2s ease;
+            }
+
+            select:hover, button:hover {
+                background-color: #FFD700;
+                color: #000;
+            }
+
+            #result {
+                margin-top: 2rem;
+                padding: 1rem;
+                background: #0b0b0a;
+                color: #FFD700;
+                border: 1px solid #FFD700;
+                border-radius: 6px;
+                min-width: 300px;
+                text-align: center;
+                font-size: 1.1rem;
+            }
+        </style>
+    </head>
+    <body>
+        <select id="consensusSelect">
+            <option value="pow">proof of work (PoW)</option>
+            <option value="pos">proof of stake (PoS)</option>
+            <option value="dpos">delegated proof of stake (DPoS)</option>
+        </select>
+        <button onclick="simulate()">simulate</button>
+        <div id="validatorList">Who'll mine? Goblin, Mystic or Priest</div>
+        <div id="result">............</div>
+
+        <script>
+            const validators = {
+                Priest: 50,
+                Goblin: 20,
+                Mystic: 70
+            };
+
+            function simulatePoW() {
+                const miners = Object.keys(validators);
+                const winner = miners[Math.floor(Math.random() * miners.length)];
+                return `Gold is for ${winner}`;
+            }
+
+            function simulatePoS() {
+            const totalStake = Object.values(validators).reduce((a, b) => a + b, 0);
+            const rand = Math.random() * totalStake;
+            let current = 0;
+            for (const [validator, stake] of Object.entries(validators)) {
+                current += stake;
+                if (rand <= current) return `Gold is for ${validator}`;
+            }
+            }
+            
+            function simulateDPoS() {
+                const votes = {
+                    ghost1: ['Goblin'],
+                    ghost2: ['Mystic','Priest'],
+                    ghost3: ['Mystic','Goblin'],
+                    ghost4: ['Priest'],
+                    ghost5: ['Goblin']
+                }//declares the voting stats 
+                const tally = {}; //declares the empty vote count
+                for (const voter in votes) { //loops through the votes
+                    votes[voter].forEach(delegate => {//for every delegate inside the current voter's vote
+                    tally[delegate] = (tally[delegate] || 0) + 1;//update it by 1 and initialize it by 0 if undefined
+                    });
+                }
+                const top = Object.entries(tally).sort((a, b) => b[1] - a[1]);//internal tim sort
+                return `${top.slice(0, 2).map(e => e[0]).join(",")}`;//string manipulation to return top 2 delegates
+            }
+
+            function simulate() {
+                const mode = document.getElementById('consensusSelect').value;
+                let output = '';
+                switch (mode) {
+                    case 'pow': output = simulatePoW(); break;
+                    case 'pos': output = simulatePoS(); break;
+                    case 'dpos': output = simulateDPoS(); break;
+                }
+                document.getElementById('result').innerText = output;
+            }
+        </script>
+    </body>
+</html>
