@@ -1,12 +1,10 @@
 require("dotenv").config(); // adding the environment variable
-const { Wallet, ethers } = require('ethers'); // plugging in the ethers.js lib
+const ethers = require('ethers');
 
 // Load env
-const provider = new ethers.providers.JsonRpcProvider( // remote procedure call - causes a procedure to execute in different address space.
-    `https://sepolia.infura.io/v3/${process.env.INFURA_PROJECT_ID}` // connects to ethereum blockchain
-);
+const provider = new ethers.providers.JsonRpcProvider(process.env.QUICKNODE_URL);
 const wallet = new ethers.Wallet(process.env.PRIVATE_KEY, provider); // wallet variable and storage
-
+console.log("Private Key:", process.env.PRIVATE_KEY);
 // ERC20 Contract config
 const tokenAddress = process.env.TOKEN_CONTRACT;
 const abi = [
